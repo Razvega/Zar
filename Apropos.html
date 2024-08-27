@@ -1,0 +1,652 @@
+<html><head>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+<style>
+:root {
+  --primary-color: #2c3e50;
+  --secondary-color: #ecf0f1;
+  --accent-color: #e74c3c;
+  --text-color: #34495e;
+  --light-text: #bdc3c7;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+header {
+  background-color: rgba(255, 255, 255, 0.95);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+header.scrolled {
+  background-color: rgba(255, 255, 255, 0.98);
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8em;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+nav ul {
+  display: flex;
+  gap: 30px;
+}
+
+nav ul li {
+  list-style: none;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+nav ul li a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: var(--accent-color);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+nav ul li a:hover::after {
+  transform: scaleX(1);
+}
+
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-content {
+  z-index: 2;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 4.5em;
+  margin-bottom: 20px;
+  color: var(--primary-color);
+}
+
+.hero p {
+  font-size: 1.4em;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 15px 40px;
+  background-color: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 80%);
+  transform: scale(0);
+  transition: transform 0.6s ease-out;
+}
+
+.cta-button:hover::before {
+  transform: scale(1);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.section {
+  padding: 120px 0;
+}
+
+.section-title {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 3em;
+  margin-bottom: 60px;
+  color: var(--primary-color);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 40px;
+}
+
+.service-card {
+  background-color: white;
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(236,240,241,0.3) 0%, rgba(236,240,241,0) 70%);
+  transform: scale(0);
+  transition: transform 0.6s ease-out;
+}
+
+.service-card:hover::before {
+  transform: scale(1);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.service-icon {
+  font-size: 3.5em;
+  margin-bottom: 20px;
+  color: var(--accent-color);
+}
+
+.service-card h3 {
+  font-size: 1.6em;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+}
+
+.testimonials {
+  background-color: var(--primary-color);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonials::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 50%, rgba(0,0,0,0.1) 50%, rgba(0,0,0,0.1) 75%, transparent 75%, transparent);
+  background-size: 100px 100px;
+  opacity: 0.1;
+}
+
+.swiper {
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+.testimonial-slide {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+}
+
+.testimonial-content {
+  font-size: 1.2em;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.testimonial-author {
+  font-weight: 700;
+  font-style: italic;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 15px;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+.newsletter {
+  background-color: var(--accent-color);
+  color: white;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.newsletter::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80"><circle cx="40" cy="40" r="38" fill="none" stroke="white" stroke-width="4" stroke-opacity="0.1"/></svg>');
+  background-size: 80px 80px;
+  opacity: 0.2;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.newsletter-form input {
+  padding: 15px;
+  border: none;
+  border-radius: 50px 0 0 50px;
+  width: 300px;
+  font-size: 1em;
+}
+
+.newsletter-form button {
+  padding: 15px 30px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 0 50px 50px 0;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 1em;
+  font-weight: 600;
+}
+
+.newsletter-form button:hover {
+  background-color: #1a252f;
+}
+
+footer {
+  background-color: var(--primary-color);
+  color: var(--light-text);
+  text-align: center;
+  padding: 40px 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 3em;
+  }
+  
+  .hero p {
+    font-size: 1.2em;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .newsletter-form input,
+  .newsletter-form button {
+    width: 100%;
+    max-width: 300px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+  }
+}
+
+/* 3D Text Effect */
+.hero h1 {
+  text-shadow: 
+    0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15);
+}
+
+/* Pulse animation for CTA button */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+}
+
+.cta-button {
+  animation: pulse 2s infinite;
+}
+
+/* Shine effect for service cards */
+.service-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    to bottom right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  transform: rotate(30deg);
+  transition: 0.6s;
+}
+
+.service-card:hover::after {
+  transform: rotate(30deg) translate(50%, 50%);
+}
+
+/* Parallax effect for testimonials */
+.testimonials {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+</style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">L'Atelier de Broderie</a>
+        <ul>
+          <li><a href="#home">Accueil</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#gallery">Galerie</a></li>
+          <li><a href="#testimonials">Témoignages</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>L'Art de la Broderie</h1>
+        <p>Transformez vos idées en chefs-d'œuvre textiles avec notre expertise artisanale.</p>
+        <a href="#contact" class="cta-button">Demandez un devis personnalisé</a>
+      </div>
+      <div id="hero-background"></div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="container">
+        <h2 class="section-title">Nos Services d'Excellence</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">🎨</div>
+            <h3>Design Sur Mesure</h3>
+            <p>Créations uniques adaptées à votre vision et votre marque.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🧵</div>
+            <h3>Broderie de Précision</h3>
+            <p>Techniques avancées pour des résultats d'une netteté incomparable.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">👕</div>
+            <h3>Personnalisation Textile</h3>
+            <p>Du vêtement d'entreprise aux pièces uniques pour particuliers.</p>
+          </div>
+          <div class="service-card">
+            <div class="service-icon">🔧</div>
+            <h3>Restauration d'Art</h3>
+            <p>Redonnez vie à vos textiles précieux avec notre expertise en restauration.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" class="section">
+      <div class="container">
+        <h2 class="section-title">Notre Galerie d'Inspiration</h2>
+        <div class="gallery">
+          <div class="gallery-item">
+            <img src="https://example.com/broderie-luxe1.jpg" alt="Broderie florale sur soie, style art nouveau" width="400" height="300">
+          </div>
+          <div class="gallery-item">
+            <img src="https://example.com/broderie-luxe2.jpg" alt="Logo d'entreprise brodé en fil d'or sur velours" width="400" height="300">
+          </div>
+          <div class="gallery-item">
+            <img src="https://example.com/broderie-luxe3.jpg" alt="Motif géométrique complexe brodé sur lin" width="400" height="300">
+          </div>
+          <div class="gallery-item">
+            <img src="https://example.com/broderie-luxe4.jpg" alt="Broderie 3D sur robe de haute couture" width="400" height="300">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="section testimonials">
+      <div class="container">
+        <h2 class="section-title">Témoignages de Nos Clients</h2>
+        <div class="swiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="testimonial-slide">
+                <p class="testimonial-content">"L'Atelier de Broderie a dépassé toutes mes attentes. Leur attention aux détails est remarquable, et le résultat final était tout simplement époustouflant."</p>
+                <p class="testimonial-author">- Élise D., Styliste</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="testimonial-slide">
+                <p class="testimonial-content">"Grâce à leur expertise, notre collection a gagné en prestige. La qualité de leur broderie est inégalée sur le marché."</p>
+                <p class="testimonial-author">- Marc L., Directeur Artistique</p>
+              </div>
+            </div>
+            <div class="swiper-slide">
+              <div class="testimonial-slide">
+                <p class="testimonial-content">"Un travail d'une finesse exceptionnelle. Chaque pièce est un véritable chef-d'œuvre qui raconte une histoire."</p>
+                <p class="testimonial-author">- Sophie M., Collectionneuse d'Art</p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="newsletter" class="section newsletter">
+      <div class="container">
+        <h2 class="section-title">Restez Inspiré</h2>
+        <p>Abonnez-vous à notre newsletter pour découvrir les dernières tendances en broderie, des conseils d'experts et des offres exclusives.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Votre adresse e-mail" required>
+          <button type="submit">S'abonner</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2023 L'Atelier de Broderie. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // 3D background animation
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.getElementById('hero-background').appendChild(renderer.domElement);
+
+    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+    const material = new THREE.MeshNormalMaterial();
+    const torusKnot = new THREE.Mesh(geometry, material);
+    scene.add(torusKnot);
+
+    camera.position.z = 30;
+
+    function animate() {
+      requestAnimationFrame(animate);
+      torusKnot.rotation.x += 0.01;
+      torusKnot.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Responsive 3D background
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // GSAP animations
+    gsap.registerPlugin(ScrollTrigger);
+
+    gsap.from('.hero-content', { 
+      duration: 1.5, 
+      y: 100, 
+      opacity: 0, 
+      ease: 'power3.out',
+      stagger: 0.2
+    });
+
+    gsap.utils.toArray('.service-card').forEach(card => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top bottom-=100',
+          toggleActions: 'play none none reverse'
+        },
+        y: 100,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      });
+    });
+
+    gsap.utils.toArray('.gallery-item').forEach(item => {
+      gsap.from(item, {
+        scrollTrigger: {
+          trigger: item,
+          start: 'top bottom-=100',
+          toggleActions: 'play none none reverse'
+        },
+        scale: 0.8,
+        opacity: 0,
+        duration: 0.8,
+        ease: 'power3.out'
+      });
+    });
+
+    // Testimonial slider
+    const swiper = new Swiper('.swiper', {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+
+  </script>
+</body></html>
